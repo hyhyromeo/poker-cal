@@ -4,11 +4,13 @@ import EndGameModal from "../component/EndGameModal";
 import PlayerTable from "../component/PlayerTable";
 import { loadPlayers, savePlayers } from "../utils/localStorage";
 import React from "react";
+import GameBalanceModal from "../component/GameBalanceModal";
 
 export default function Home() {
   const [players, setPlayers] = useState<any>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [endGameModalIsOpen, setEndGameModalIsOpenn] = useState(false);
+  const [endGameModalIsOpen, setEndGameModalIsOpen] = useState(false);
+  const [gameBalanceModalIsOpen, setGameBalanceModalIsOpen] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(false);
 
   useEffect(() => {
@@ -16,15 +18,25 @@ export default function Home() {
     const savedPlayers = loadPlayers();
     console.log("Loaded players:", savedPlayers); // Debugging
     console.log("Loaded"); // Debugging
-
     setPlayers(savedPlayers);
-  }, [selectedPlayer]);
+  }, [selectedPlayer, modalIsOpen]);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
-  const openEndGameModal = () => setEndGameModalIsOpenn(true);
-  const closeEndGameModal = () => setEndGameModalIsOpenn(false);
+  const closeEndGameModal = () => setEndGameModalIsOpen(false);
+  const handleBalanceBtn = () => {
+    const allPlayersCashedOut = players.filter((player: any) => {
+      return player.cashout === null;
+    });
 
+    if (allPlayersCashedOut.length > 0) {
+      alert("Please cash out all players");
+      console.log(players.filter((player: any) => player === null));
+    } else {
+      setGameBalanceModalIsOpen((prevState) => !prevState);
+    }
+  };
+  const closeGameBalanceModal = () => setGameBalanceModalIsOpen(false);
   const handleSavePlayer = (player: any) => {
     savePlayers([...players, player]);
     setPlayers([...players, player]);
@@ -51,10 +63,10 @@ export default function Home() {
       <PlayerTable players={players} onPlayerSelect={handlePlayerSelect} />
       {players.length > 0 && (
         <button
-          onClick={openEndGameModal}
+          onClick={handleBalanceBtn}
           className={`mt-4 inline-flex justify-center rounded-md border border-red-300 shadow-sm px-4 py-2 text-base font-medium text-black dark:text-white`}
         >
-          End Game
+          Balance
         </button>
       )}
       <AddPlayerModal
@@ -65,6 +77,12 @@ export default function Home() {
       <EndGameModal
         isOpen={endGameModalIsOpen}
         onRequestClose={closeEndGameModal}
+        onSave={handleEndGame}
+      />
+      <GameBalanceModal
+        players={players}
+        isOpen={gameBalanceModalIsOpen}
+        onRequestClose={closeGameBalanceModal}
         onSave={handleEndGame}
       />
     </div>

@@ -15,21 +15,21 @@ const EndGameModal = ({ isOpen, onRequestClose, onSave }: any) => {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Confirm End Game"
-      className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 w-full"
+      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800  items-center justify-center w-3/4 border-none outline-none rounded-xl"
     >
-      <div className=" rounded-lg overflow-hidden shadow-xl transform transition-all w-3/4 p-4 text-center bg-gray-800 dark:bg-white">
+      <div className="py-10 px-5 rounded-lg overflow-hidden shadow-xl transform transition-all w-full text-center bg-gray-800 dark:bg-white">
         <p className="text-2xl m-3 text-white dark:text-black">
           Confirm End Game ?
         </p>
-        <div className="flex justify-center items-center gap-4 w-full">
+        <div className="flex justify-center items-center gap-4 w-full px-5">
           <div
-            className="border border-white bg-red-500 px-4 py-3 w-1/2 font-bold rounded-xl text-white dark:text-black"
+            className="border border-white bg-red-500 px-4 py-3 w-[100px] font-bold rounded-xl text-white dark:text-black"
             onClick={handleConfirm}
           >
             Confirm
           </div>
           <div
-            className="border bg-transparent px-4 py-3 w-1/2 font-bold rounded-xl text-white dark:text-black"
+            className="border bg-transparent px-4 py-3 w-[100px] font-bold rounded-xl text-white dark:text-black"
             onClick={onRequestClose}
           >
             Back

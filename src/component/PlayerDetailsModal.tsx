@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { handleCashOut, handleRebuy } from "../utils/localStorage";
+import { Edit } from "../utils/icons";
 
 export default function PlayerDetailsModal({
   isOpen,
@@ -56,6 +57,11 @@ export default function PlayerDetailsModal({
       return player.rebuy.map((num: any) => `$${num}`).join(" + ");
     }
   };
+
+  const handleEdit = () => {
+    setoption("cashOut");
+  };
+
   return (
     <Modal
       shouldCloseOnOverlayClick={true}
@@ -65,31 +71,51 @@ export default function PlayerDetailsModal({
       className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800  items-center justify-center w-3/4 border-none outline-none rounded-xl"
     >
       <div className="rounded-lg overflow-hidden shadow-xl transform transition-all w-full p-4 text-center bg-gray-800 dark:bg-white">
+        <span
+          onClick={handleEdit}
+          className={`${player.cashout ? "" : "hidden"} absolute top-4 right-4`}
+        >
+          {Edit}
+        </span>
+
         <p className="text-2xl font-extrabold m-3 text-white dark:text-black">
           {player.name}
           {option && <span className="text-xl"> - {option}</span>}
         </p>
-
-        <div className="flex justify-center text-sm m-3 text-white dark:text-black">
-          Total Buy-in: <p className="font-bold ml-3">${player.buyin}</p>
-        </div>
-        {player.rebuy_count > 0 && (
-          <>
-            <div className="flex justify-center text-sm m-3 text-white dark:text-black">
-              Re-buy count:
-              <p className="font-bold ml-3">{player.rebuy_count}</p>
-            </div>
-            <div className="grid grid-cols-2 text-sm m-3 text-white dark:text-black">
-              Re-buy Amount:{" "}
-              <p className="font-bold ml-3">{reBuyAmountCal()}</p>
-            </div>
-          </>
-        )}
-        {player.cashout > 0 && (
-          <div className="text-xl  m-3 text-purple-500 dark:text-black">
-            <p className="font-bold ml-3 ">Cash Out: ${player.cashout}</p>
+        <div className="flex justify-center items-center flex-col w-full ml-2">
+          <div className="grid grid-cols-2 justify-center text-sm m-3 text-white dark:text-black">
+            <p className="flex justify-center items-center text-center">
+              Total Buy-in:
+            </p>
+            <p className="font-bold text-start ml-9">${player.buyin}</p>
           </div>
-        )}
+          {player.rebuy_count > 0 && (
+            <>
+              <div className="grid grid-cols-2 w-full justify-center text-sm  text-white dark:text-black">
+                <p className="text-end w-full">Re-buy count:</p>
+
+                <p className="font-bold text-start ml-10">
+                  {player.rebuy_count}
+                </p>
+              </div>
+              <div className="grid grid-cols-2 text-sm m-3 text-white dark:text-black">
+                <p className="flex justify-center items-center text-center">
+                  Re-buy Amount:
+                </p>
+                <p className="font-bold text-start ml-9">{reBuyAmountCal()}</p>
+              </div>
+            </>
+          )}
+          {player.cashout > 0 && (
+            <div className="grid grid-cols-2 text-xl font-bold m-3 text-white dark:text-black">
+              <p className="flex justify-center items-center text-center">
+                Cash Out:
+              </p>
+              <p className=" text-start ml-9">${player.cashout}</p>
+            </div>
+          )}
+        </div>
+
         {option && (
           <input
             className={`shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
@@ -100,6 +126,16 @@ export default function PlayerDetailsModal({
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           ></input>
+        )}
+        {option === "cashOut" && player.cashout && (
+          <div className={`w-full items-center justify-center flex py-3`}>
+            <div
+              onClick={handleCashOutConfirm}
+              className="border border-white bg-green-600 w-1/3 font-bold text-sm h-[40px] text-center flex items-center justify-center text-wrap rounded-xl text-white dark:text-black"
+            >
+              Confirm
+            </div>
+          </div>
         )}
         <p className="text-sm m-3 text-red-500">{errorsMsg}</p>
         {!player.cashout && (

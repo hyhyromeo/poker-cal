@@ -43,16 +43,23 @@ const PlayerTable = ({ players, onPlayerSelect }: any) => {
             <tr
               key={index}
               className={`${
-                player.cashout ? "bg-red-100" : "bg-white"
+                player.cashout ? "bg-gray-300" : "bg-white"
               } border-t border-gray-200 text-center `}
               onClick={() => handlePlayerClick(player)}
             >
               <td className="py-3 px-4 text-gray-700">{player.name}</td>
               <td className="py-3 px-4 text-gray-700">{player.buyin}</td>
               <td className="py-3 px-4 ">
-                {/* {player.cashout ? "✅" : "-"} */}
                 {player.cashout ? (
-                  <p className="text-purple-700 font-extrabold text-xl">
+                  <p
+                    className={`${
+                      player.result > 0
+                        ? "text-green-500"
+                        : player.result === 0
+                        ? "text-gray-500"
+                        : "text-red-500"
+                    } font-extrabold text-xl`}
+                  >
                     {formatCurrency(player.result)}
                   </p>
                 ) : (

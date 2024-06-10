@@ -46,3 +46,25 @@ export const handleRebuy = (player, cashOutValue) => {
   // console.log("handleRebuy:: ", player, cashOutValue); // Debugging
   console.log("allPlayers in local storage:", allPlayers); // Debugging
 };
+
+export const handleBalance = () => {
+  const allPlayers = JSON.parse(localStorage.getItem("players"));
+  if (allPlayers !== null) {
+    const resultArray = allPlayers.map((item) => item.result);
+    console.log("resultArray:::", resultArray);
+    const totalResult = resultArray.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
+    console.log("totalResult:::", totalResult);
+    if (totalResult === 0) {
+      return `$${Math.abs(totalResult)}`;
+    }
+    if (totalResult < 0) {
+      return `-$${Math.abs(totalResult)}`;
+    } else {
+      return `+$${totalResult}`;
+    }
+  }
+  return "";
+};

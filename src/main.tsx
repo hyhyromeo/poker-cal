@@ -4,17 +4,17 @@ import App from "./App.tsx";
 import Player from "./pages/Player.tsx";
 import Modal from "react-modal";
 import "./index.css";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
   },
-  {
-    path: "player/player:id",
-    element: <Player />,
-  },
+  // {
+  //   path: "player/player:id",
+  //   element: <Player />,
+  // },
 ]);
 Modal.setAppElement("#root");
 
