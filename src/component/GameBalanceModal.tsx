@@ -16,20 +16,16 @@ export default function GameBalanceModal({
   }, [isOpen]);
 
   const handleConfirm = (e: any) => {
-    console.log(balanceResult);
-
     if (balanceResult.toString() !== "$0") {
       setErr("Balance Result is not $0 !!");
     } else {
       setErr("");
       onSave();
-      console.log("END");
       handleClose();
       e.preventDefault();
     }
     if (err) {
       onSave();
-      console.log("END");
       handleClose();
       e.preventDefault();
     }

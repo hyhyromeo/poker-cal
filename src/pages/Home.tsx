@@ -16,8 +16,6 @@ export default function Home() {
   useEffect(() => {
     // Load players from local storage when the component mounts
     const savedPlayers = loadPlayers();
-    console.log("Loaded players:", savedPlayers); // Debugging
-    console.log("Loaded"); // Debugging
     setPlayers(savedPlayers);
   }, [selectedPlayer, modalIsOpen]);
 
@@ -31,7 +29,6 @@ export default function Home() {
 
     if (allPlayersCashedOut.length > 0) {
       alert("Please cash out all players");
-      console.log(players.filter((player: any) => player === null));
     } else {
       setGameBalanceModalIsOpen((prevState) => !prevState);
     }

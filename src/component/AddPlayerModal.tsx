@@ -13,6 +13,10 @@ const AddPlayerModal = ({ isOpen, onRequestClose, onSave }: any) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    if (name === "" || buyin === "") {
+      alert("Please enter name and buyin amount");
+      return;
+    }
     onSave({
       name,
       buyin: parseInt(buyin),
