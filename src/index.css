@@ -22,8 +22,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -moz-transition: opacity 0.3s ease-in-out;
+  -ms-transition: opacity 0.3s ease-in-out;
+  -o-transition: opacity 0.3s ease-in-out;
+}
+.ReactModal__Overlay--after-open {
+  opacity: 1;
 }
 
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
 /* .modal-content {
   position: fixed;
   top: 0;

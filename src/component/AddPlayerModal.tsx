@@ -36,13 +36,14 @@ const AddPlayerModal = ({ isOpen, onRequestClose, onSave }: any) => {
 
   return (
     <Modal
+      // closeTimeoutMS={2000}
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Add Player"
       shouldCloseOnOverlayClick={true}
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800  items-center justify-center w-3/4 border-none outline-none rounded-xl"
+      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800  items-center justify-center w-3/4 border-none outline-none rounded-xl`}
     >
-      <div className="rounded-lg overflow-hidden shadow-xl transform transition-all w-full text-center bg-gray-800 dark:bg-white">
+      <div className="rounded-lg overflow-hidden shadow-xl transition duration-150 ease-in-out transform w-full text-center bg-gray-800 dark:bg-white">
         <form
           onSubmit={handleSubmit}
           className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4"

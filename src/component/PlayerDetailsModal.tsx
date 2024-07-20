@@ -12,13 +12,9 @@ export default function PlayerDetailsModal({
   const [option, setoption] = useState<any>("");
   const [errorsMsg, setErrorsMsg] = useState<any>("");
   const [tempPlayerDetails, setTempPlayerDetails] = useState<any>(player);
-  console.log("player", player);
-  console.log("tempPlayerDetails", tempPlayerDetails);
   const handleCashOutBtn = () => {
     setoption("cashOut");
   };
-
-  // useEffect(() => {}, [tempPlayerDetails]);
 
   const handleCashOutConfirm = () => {
     if (inputValue !== "") {
@@ -46,11 +42,14 @@ export default function PlayerDetailsModal({
     }
   };
   const handleUpdateBtn = () => {
-    if (option === "edit") {
+    if (option === "edit" && player.cashout) {
+      handleEdit(tempPlayerDetails);
+      handleCashOut(player, tempPlayerDetails.cashout);
+      setoption("");
+      onRequestClose();
+    } else if (option === "edit") {
       setoption("");
       setTempPlayerDetails(player);
-      console.log("handleUpdateBtn : ", tempPlayerDetails);
-
       handleEdit(tempPlayerDetails);
       onRequestClose();
     }
@@ -71,9 +70,7 @@ export default function PlayerDetailsModal({
   };
 
   const handleEditBtn = () => {
-    // setoption("cashOut");
     setTempPlayerDetails(player);
-    console.log("tempPlayerDetails", tempPlayerDetails);
     setoption("edit");
   };
   const handleBackBtn = () => {
@@ -154,14 +151,12 @@ export default function PlayerDetailsModal({
                           key={i}
                           className="flex w-full justify-center items-center text-center ml-3"
                         >
-                          <div className="text-black dark:text-black text-center rounded-lg w-full border flex justify-center items-center">
+                          <div className="text-white dark:text-black text-center rounded-lg w-full border flex justify-center items-center">
                             {tempPlayerDetails.rebuy[i]}
                           </div>
                           <span
                             className=""
                             onClick={() => {
-                              console.log(i);
-
                               // Check if the index is valid
                               if (
                                 i >= 0 &&
@@ -169,8 +164,6 @@ export default function PlayerDetailsModal({
                               ) {
                                 let tempI = tempPlayerDetails.rebuy[i];
                                 tempPlayerDetails.rebuy.splice(i, 1);
-                                console.log(tempI);
-
                                 // Remove one element at the specified index
                                 setTempPlayerDetails({
                                   ...tempPlayerDetails,
@@ -181,8 +174,6 @@ export default function PlayerDetailsModal({
                                   rebuy_count:
                                     tempPlayerDetails.rebuy_count - 1,
                                 });
-                              } else {
-                                console.log("Invalid index");
                               }
                             }}
                           >
@@ -205,23 +196,41 @@ export default function PlayerDetailsModal({
               <p className="flex justify-center items-center text-center">
                 Cash Out:
               </p>
-              <p className=" text-start ml-9">${player.cashout}</p>
+              {option === "edit" ? (
+                <input
+                  className="text-black dark:text-white text-center rounded-lg"
+                  type="number"
+                  placeholder={tempPlayerDetails.cashout}
+                  value={tempPlayerDetails.cashout}
+                  onChange={(e) => {
+                    setTempPlayerDetails({
+                      ...tempPlayerDetails,
+                      cashout: e.target.value,
+                    });
+                  }}
+                ></input>
+              ) : (
+                <p className=" text-start ml-9">${player.cashout}</p>
+              )}
             </div>
           )}
         </div>
 
-        {option == "rebuy" ||
-          (option == "cashOut" && (
-            <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
-              type="number"
-              placeholder={`${
-                option === "cashOut" ? "Cash Out Amount" : "Re-buy Amount"
-              }`}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            ></input>
-          ))}
+        {option == "rebuy" || option == "cashOut" ? (
+          <input
+            className={`shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
+            type="number"
+            placeholder={`${
+              option === "cashOut" ? "Cash Out Amount" : "Re-buy Amount"
+            }`}
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+          ></input>
+        ) : (
+          ""
+        )}
         {option === "cashOut" && player.cashout && (
           <div className={`w-full items-center justify-center flex py-3`}>
             <div
@@ -233,7 +242,7 @@ export default function PlayerDetailsModal({
           </div>
         )}
         <p className="text-sm m-3 text-red-500">{errorsMsg}</p>
-        {!player.cashout && (
+        {!player.cashout || option === "edit" ? (
           <div className="flex justify-center items-center gap-4 w-full mt-5">
             {option === "rebuy" ? (
               <div
@@ -278,6 +287,8 @@ export default function PlayerDetailsModal({
               ""
             )}
           </div>
+        ) : (
+          ""
         )}
       </div>
     </Modal>
