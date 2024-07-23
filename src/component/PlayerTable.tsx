@@ -75,7 +75,7 @@ const PlayerTable = ({ players, onPlayerSelect }: any) => {
               onClick={() => handlePlayerClick(player)}
             >
               <td className="py-3 px-4 text-gray-700">{player.name}</td>
-              <td className="py-3 px-4 text-gray-700">{player.buyin}</td>
+              <td className="py-3 px-4 text-gray-700">${player.buyin}</td>
               <td className="py-3 px-4 ">
                 {player.cashout ? (
                   <p

@@ -66,9 +66,9 @@ export const handleBalance = () => {
       return `$${Math.abs(totalResult)}`;
     }
     if (totalResult < 0) {
-      return `-$${Math.abs(totalResult)}`;
+      return `+$${Math.abs(totalResult)}`;
     } else {
-      return `+$${totalResult}`;
+      return `-$${totalResult}`;
     }
   }
   return "";

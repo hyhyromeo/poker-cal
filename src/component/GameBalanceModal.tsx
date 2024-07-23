@@ -13,6 +13,7 @@ export default function GameBalanceModal({
   const [err, setErr] = useState("");
   useEffect(() => {
     setbalanceResult(handleBalance);
+    console.log(balanceResult.split("$")[0]);
   }, [isOpen]);
 
   const handleConfirm = (e: any) => {
@@ -44,12 +45,24 @@ export default function GameBalanceModal({
     >
       <div className="py-10 px-5 rounded-lg overflow-hidden shadow-xl transform transition-all w-full text-center bg-gray-800 dark:bg-white">
         <p className="text-2xl m-3 text-white dark:text-black">Game Balance</p>
-        <div className="text-3xl m-3 text-white dark:text-black">
-          {balanceResult}
+        <div
+          className={`text-xl m-3 ${
+            balanceResult.split("$")[0] === "-"
+              ? "text-red-500"
+              : balanceResult.split("$")[0] === "+"
+              ? "text-green-500"
+              : "text-white dark:text-black"
+          }`}
+        >
+          {balanceResult.split("$")[0] === "-"
+            ? `Missing ${balanceResult}`
+            : balanceResult.split("$")[0] === "+"
+            ? `Extra ${balanceResult} More`
+            : balanceResult}
         </div>
 
         <div className="text-3xl m-3 text-red-500">{err}</div>
-        <div className="flex justify-center items-center gap-4 w-full px-5">
+        <div className="flex justify-center items-center gap-4 w-full px-5 my-3">
           <div
             className={`border border-white dark:border-black  ${
               err ? "bg-red-500" : "bg-transparent"

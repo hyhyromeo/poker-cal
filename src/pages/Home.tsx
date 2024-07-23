@@ -5,11 +5,13 @@ import PlayerTable from "../component/PlayerTable";
 import { loadPlayers, savePlayers } from "../utils/localStorage";
 import React from "react";
 import GameBalanceModal from "../component/GameBalanceModal";
+import InfoModal from "../component/InfoModal";
 
 export default function Home() {
   const [players, setPlayers] = useState<any>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [endGameModalIsOpen, setEndGameModalIsOpen] = useState(false);
+  const [infoModalIsOpen, setInfoModalIsOpen] = useState(false);
   const [gameBalanceModalIsOpen, setGameBalanceModalIsOpen] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(false);
 
@@ -22,6 +24,10 @@ export default function Home() {
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
   const closeEndGameModal = () => setEndGameModalIsOpen(false);
+
+  const closeGameBalanceModal = () => setGameBalanceModalIsOpen(false);
+  const openInfoModal = () => setInfoModalIsOpen(true);
+  const closeInfoModal = () => setInfoModalIsOpen(false);
   const handleBalanceBtn = () => {
     const allPlayersCashedOut = players.filter((player: any) => {
       return player.cashout === null;
@@ -33,7 +39,6 @@ export default function Home() {
       setGameBalanceModalIsOpen((prevState) => !prevState);
     }
   };
-  const closeGameBalanceModal = () => setGameBalanceModalIsOpen(false);
   const handleSavePlayer = (player: any) => {
     savePlayers([...players, player]);
     setPlayers([...players, player]);
@@ -49,7 +54,7 @@ export default function Home() {
   return (
     <div className="container mx-auto p-4 flex flex-col items-center w-screen">
       <div className="flex justify-between align-middle items-center w-full">
-        <h1 className="text-2xl font-bold mb-4">Poker Cal</h1>
+        <h1 className="text-2xl font-bold mb-4">PokerStackPro</h1>
         <button
           onClick={openModal}
           className="mb-4 w-fit p-[3%] inline-flex justify-center rounded-full border bg-gray-200 shadow-md dark:shadow-[#a8a8a8] text-base font-bold"
@@ -108,6 +113,24 @@ export default function Home() {
         onRequestClose={closeGameBalanceModal}
         onSave={handleEndGame}
       />
+      <div className="absolute bottom-14 left-6" onClick={openInfoModal}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-8"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+          />
+        </svg>
+      </div>
+
+      <InfoModal isOpen={infoModalIsOpen} onRequestClose={closeInfoModal} />
     </div>
   );
 }
